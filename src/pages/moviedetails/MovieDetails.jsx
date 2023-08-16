@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import MovieDetailsList from 'components/moviedetailslist/MovieDetailsList';
 
 const MovieDetails = () => {
-  // const [movie, setMovie] = useState(null);
-
+  const [movie, setMovie] = useState(null);
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -21,15 +21,19 @@ const MovieDetails = () => {
         options
       )
       .then(response => {
-        console.log(response.data);
-        // setMovie(response.data);
+        setMovie(response.data);
       })
       .catch(error => {
         console.error(error);
       });
   }, [movieId]);
 
-  return <p>MovieDetails</p>;
+  return (
+    <main>
+      <button>Go back</button>
+      {movie && <MovieDetailsList movie={movie} />}
+    </main>
+  );
 };
 
 export default MovieDetails;
