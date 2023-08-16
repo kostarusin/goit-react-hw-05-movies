@@ -3,7 +3,7 @@ const MovieDetailsList = ({ movie }) => {
 
   return (
     <>
-      <img src={`http://image.tmdb.org/t/p/w500${poster_path}`} alt="" />
+      <img src={`https://image.tmdb.org/t/p/w500${poster_path}`} alt="" />
       <h2>{original_title}</h2>
       <p>User score: {Math.round(Number(vote_average) * 10)} %</p>
       <p>{overview}</p>
