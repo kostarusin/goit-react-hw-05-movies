@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const MovieDetails = () => {
-  const [movie, setMovie] = useState(null);
+  // const [movie, setMovie] = useState(null);
 
   const { movieId } = useParams();
 
@@ -22,7 +22,7 @@ const MovieDetails = () => {
       )
       .then(response => {
         console.log(response.data);
-        setMovie(response.data);
+        // setMovie(response.data);
       })
       .catch(error => {
         console.error(error);
