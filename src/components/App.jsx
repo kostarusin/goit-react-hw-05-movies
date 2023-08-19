@@ -1,31 +1,35 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-// import { SharedLayout } from './SharedLayout';
-import Home from 'pages/home/Home';
-import Movies from 'pages/movies/Movies';
-import MovieDetails from 'pages/moviedetails/MovieDetails';
-import NotFound from 'pages/notfound/NotFound';
-import Cast from 'components/cast/Cast';
-import Reviews from 'components/reviews/Reviews';
-import { Container, Header, Link } from './App.styled';
+import SharedLayout from './sharedlayout/SharedLayout';
+
+const Home = lazy(() => import('pages/Home'));
+const Movies = lazy(() => import('pages/Movies'));
+const MovieDetails = lazy(() => import('pages/MovieDetails'));
+const NotFound = lazy(() => import('pages/NotFound'));
+const Cast = lazy(() => import('components/cast/Cast'));
+const Reviews = lazy(() => import('components/reviews/Reviews'));
+const MoviesList = lazy(() => import('components/movieslist/MoviesList'));
+const MovieSearchForm = lazy(() =>
+  import('components/moviessearchform/MovieSearchForm')
+);
 
 export const App = () => {
   return (
-    <Container>
-      <Header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/movies">Movies</Link>
-        </nav>
-      </Header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route path="/" element={<Home />}>
+          <Route index element={<MovieSearchForm />} />
+          <Route index element={<MoviesList />} />
+        </Route>
+        <Route path="/movies" element={<Movies />}>
+          <Route index element={<MoviesList />} />
+        </Route>
         <Route path="/movies/:movieId" element={<MovieDetails />}>
           <Route path="cast" element={<Cast />} />
           <Route path="reviews" element={<Reviews />} />
         </Route>
         <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Container>
+      </Route>
+    </Routes>
   );
 };

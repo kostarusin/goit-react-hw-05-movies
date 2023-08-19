@@ -18,8 +18,7 @@ export const fetchMovies = async () => {
   return data;
 };
 
-export const fetchMoviesByQuery = async query => {
-  console.log(query);
+export const fetchMoviesByQuery = async ({ query }) => {
   const { data } = await axios.get(
     `${BASE_URL}search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
     options

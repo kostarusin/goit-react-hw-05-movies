@@ -1,13 +1,16 @@
-import { useParams, Link, Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import MovieDetailsList from 'components/moviedetailslist/MovieDetailsList';
 import { fetchMovieById } from 'API';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const { movieId } = useParams();
+  const location = useLocation();
+  const locationState = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
+    if (!movieId) return;
     fetchMovieById(movieId)
       .then(data => {
         setMovie(data);
@@ -18,8 +21,8 @@ const MovieDetails = () => {
   }, [movieId]);
 
   return (
-    <main>
-      <button>Go back</button>
+    <div>
+      <Link to={locationState.current}>Go back</Link>
       {movie && <MovieDetailsList movie={movie} />}
       <h3>Additional information</h3>
       <ul>
@@ -30,8 +33,10 @@ const MovieDetails = () => {
           <Link to="reviews">Reviews</Link>
         </li>
       </ul>
-      <Outlet movieId={movieId} />
-    </main>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
+    </div>
   );
 };
 

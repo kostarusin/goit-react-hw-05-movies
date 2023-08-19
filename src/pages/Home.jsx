@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchMovies } from 'API';
+import MoviesList from 'components/movieslist/MoviesList';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -16,18 +16,10 @@ const Home = () => {
   }, []);
 
   return (
-    <main>
+    <div>
       <h1>Trending Today</h1>
-      <ul>
-        {movies.map(movie => {
-          return (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </main>
+      <MoviesList movies={movies} />
+    </div>
   );
 };
 

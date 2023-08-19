@@ -7,6 +7,7 @@ const Rewiews = () => {
   const { movieId } = useParams();
 
   useEffect(() => {
+    if (!movieId) return;
     fetchMovieReview(movieId)
       .then(data => {
         setReviews(data.results);
