@@ -12,7 +12,7 @@ export const ListItem = styled.li`
 
 export const ItemLink = styled(Link)`
   text-decoration: none;
-  color: #338;
+  color: #333;
   font-weight: bold;
 
   &:hover {
