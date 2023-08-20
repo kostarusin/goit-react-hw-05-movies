@@ -1,12 +1,13 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchMoviesByQuery } from 'API';
-import MoviesList from 'components/movieslist/MoviesList';
-import MoviesSearchForm from 'components/moviessearchform/MovieSearchForm';
-import Loader from 'components/loader/Loader';
+import MoviesList from 'components/MoviesList/MoviesList';
+import MoviesSearchForm from 'components/MoviesSearchForm/MovieSearchForm';
+import Error from 'components/Error/Error';
+import NotFound from 'components/NotFound/NotFound';
+import Loader from 'components/Loader/Loader';
 
 const Movies = () => {
-  const [selectedMovies, setSelectedMovies] = useState('');
   const [movies, setMovies] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
   const [error, setError] = useState(null);
@@ -29,57 +30,21 @@ const Movies = () => {
       .catch(error => {
         setError(error.message);
       })
-      .finally(setIsloading(false));
+      .finally(setIsloading(false), setIsEmpty(false));
   }, [query]);
-
-  const onQueryChange = event => {
-    setSelectedMovies(event.target.value);
-    setIsEmpty(false);
-  };
-
-  const onHadleSubmit = event => {
-    event.preventDefault();
-    if (!selectedMovies) {
-      alert('Insert serch word');
-      return;
-    }
-    handleSubmit(selectedMovies);
-    setSelectedMovies('');
-  };
 
   const handleSubmit = query => {
     setSearchParams({ query });
   };
 
   return (
-    <div>
+    <>
+      <MoviesSearchForm handleSubmit={handleSubmit} />
       {isLoading && <Loader />}
-      <MoviesSearchForm
-        onSearchSubmit={onHadleSubmit}
-        selectedMovies={selectedMovies}
-        onQueryChange={onQueryChange}
-      />
-      {error && (
-        <p
-          style={{
-            fontSize: 'large',
-          }}
-        >
-          Sorry. {error} 😭
-        </p>
-      )}
-      {isEmpty && (
-        <p
-          style={{
-            fontSize: 'large',
-          }}
-        >
-          Sorry. We found no movies, try again.
-        </p>
-      )}
-
+      {error && <Error error={error} />}
+      {isEmpty && <NotFound />}
       <MoviesList movies={movies} />
-    </div>
+    </>
   );
 };
 

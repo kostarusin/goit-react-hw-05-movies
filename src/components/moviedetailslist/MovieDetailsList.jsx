@@ -1,6 +1,6 @@
 import { useLocation, Outlet } from 'react-router-dom';
 import { useRef, Suspense } from 'react';
-import Loader from 'components/loader/Loader';
+import Loader from 'components/Loader/Loader';
 import {
   Container,
   MovieImage,

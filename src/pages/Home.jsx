@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { fetchMovies } from 'API';
-import MoviesList from 'components/movieslist/MoviesList';
-import Loader from 'components/loader/Loader';
+import MoviesList from 'components/MoviesList/MoviesList';
+import Loader from 'components/Loader/Loader';
+import Error from 'components/Error/Error';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -21,20 +22,12 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <h1>Trending Today</h1>
       {isLoading && <Loader />}
+      {error && <Error error={error} />}
       <MoviesList movies={movies} />
-      {error && (
-        <p
-          style={{
-            fontSize: 'large',
-          }}
-        >
-          Sorry. {error} 😭
-        </p>
-      )}
-    </div>
+    </>
   );
 };
 

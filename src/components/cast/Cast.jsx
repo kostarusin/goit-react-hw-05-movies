@@ -1,7 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchMovieCast } from 'API';
-import Loader from 'components/loader/Loader';
+import NotFound from 'components/NotFound/NotFound';
+import Error from 'components/Error/Error';
+import Loader from 'components/Loader/Loader';
 import {
   CastWrap,
   CastList,
@@ -37,17 +39,8 @@ const Cast = () => {
   return (
     <CastWrap>
       {isLoading && <Loader />}
-      {isEmpty && <p>Sorry, there is no cast.</p>}
-      {error && (
-        <p
-          style={{
-            fontSize: 'large',
-          }}
-        >
-          Sorry. {error} 😭
-        </p>
-      )}
-
+      {isEmpty && <NotFound />}
+      {error && <Error error={error} />}
       <CastList>
         {casts &&
           casts.map(cast => (

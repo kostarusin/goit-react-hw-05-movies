@@ -1,7 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchMovieReview } from 'API';
-import Loader from 'components/loader/Loader';
+import Error from 'components/Error/Error';
+import NotFound from 'components/NotFound/NotFound';
+import Loader from 'components/Loader/Loader';
 import { ReviewsWrap, ReviewsList, ReviewAutor } from './Reviews.styled';
 
 const Reviews = () => {
@@ -30,16 +32,8 @@ const Reviews = () => {
   return (
     <ReviewsWrap>
       {isLoading && <Loader />}
-      {isEmpty && <p>Sorry, there is no reviews.</p>}
-      {error && (
-        <p
-          style={{
-            fontSize: 'large',
-          }}
-        >
-          Sorry. {error} 😭
-        </p>
-      )}
+      {isEmpty && <NotFound />}
+      {error && <Error error={error} />}
       <ReviewsList>
         {reviews &&
           reviews.map(review => (

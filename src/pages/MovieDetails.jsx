@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import MovieDetailsList from 'components/moviedetailslist/MovieDetailsList';
-import Loader from 'components/loader/Loader';
+import MovieDetailsList from 'components/MovieDetailsList/MovieDetailsList';
+import Error from 'components/Error/Error';
+import Loader from 'components/Loader/Loader';
 import { fetchMovieById } from 'API';
 
 const MovieDetails = () => {
@@ -26,21 +27,11 @@ const MovieDetails = () => {
   }, [movieId, error]);
 
   return (
-    <div>
+    <>
       {isLoading && <Loader />}
-      {error && (
-        <p
-          style={{
-            fontSize: 'xx-large',
-            textAlign: 'center',
-          }}
-        >
-          Sorry. {error} 😭
-        </p>
-      )}
-
+      {error && <Error error={error} />}
       {movie && <MovieDetailsList movie={movie} />}
-    </div>
+    </>
   );
 };
 
