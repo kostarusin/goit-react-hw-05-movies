@@ -1,1 +1,1 @@
-export {defaults} from './SharedLayout.jsx'
+export {default} from './SharedLayout.jsx'
