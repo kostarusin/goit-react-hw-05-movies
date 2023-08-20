@@ -14,6 +14,7 @@ export const ItemLink = styled(Link)`
   text-decoration: none;
   color: #338;
   font-weight: bold;
+
   &:hover {
     color: #ff5722;
   }
