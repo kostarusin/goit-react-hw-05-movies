@@ -6,8 +6,8 @@ import MoviesSearchForm from 'components/moviessearchform/MovieSearchForm';
 import Loader from 'components/loader/Loader';
 
 const Movies = () => {
+  const [selectedMovies, setSelectedMovies] = useState('');
   const [movies, setMovies] = useState([]);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsloading] = useState(false);
@@ -15,58 +15,50 @@ const Movies = () => {
   const query = searchParams.get('query') ?? '';
 
   useEffect(() => {
-    if (!formSubmitted) {
-      setIsloading(true);
-      fetchMovies(query);
-      setFormSubmitted(true);
-    }
-  }, [query, formSubmitted]);
-
-  const fetchMovies = query => {
+    if (!query) return;
+    setIsloading(true);
     fetchMoviesByQuery({ query })
       .then(({ results }) => {
-        if (results.length === 0 && query !== '') {
+        if (results.length === 0) {
           setIsEmpty(true);
+          setMovies([]);
           return;
         }
         setMovies(results);
       })
-
       .catch(error => {
         setError(error.message);
       })
       .finally(setIsloading(false));
-  };
+  }, [query]);
 
   const onQueryChange = event => {
-    const newQuery = event.target.value;
-    if (newQuery === '') {
-      setSearchParams({});
-    } else {
-      setSearchParams({ query: newQuery });
-    }
+    setSelectedMovies(event.target.value);
+    setIsEmpty(false);
   };
 
   const onHadleSubmit = event => {
     event.preventDefault();
-    if (!query) {
+    if (!selectedMovies) {
       alert('Insert serch word');
-      setIsEmpty(false);
       return;
     }
-    setFormSubmitted(false);
-    setError(null);
-    setIsEmpty(false);
+    handleSubmit(selectedMovies);
+    setSelectedMovies('');
+  };
+
+  const handleSubmit = query => {
+    setSearchParams({ query });
   };
 
   return (
     <div>
+      {isLoading && <Loader />}
       <MoviesSearchForm
         onSearchSubmit={onHadleSubmit}
-        query={query}
+        selectedMovies={selectedMovies}
         onQueryChange={onQueryChange}
       />
-      {isLoading && <Loader />}
       {error && (
         <p
           style={{
@@ -85,9 +77,8 @@ const Movies = () => {
           Sorry. We found no movies, try again.
         </p>
       )}
-      <ul>
-        <MoviesList movies={movies} />
-      </ul>
+
+      <MoviesList movies={movies} />
     </div>
   );
 };

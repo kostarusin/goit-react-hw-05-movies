@@ -2,6 +2,13 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchMovieCast } from 'API';
 import Loader from 'components/loader/Loader';
+import {
+  CastWrap,
+  CastList,
+  CastListItem,
+  CastImage,
+  CastName,
+} from './Cast.styled';
 
 const Cast = () => {
   const [casts, setCasts] = useState([]);
@@ -28,7 +35,7 @@ const Cast = () => {
   }, [movieId]);
 
   return (
-    <>
+    <CastWrap>
       {isLoading && <Loader />}
       {isEmpty && <p>Sorry, there is no cast.</p>}
       {error && (
@@ -40,11 +47,12 @@ const Cast = () => {
           Sorry. {error} 😭
         </p>
       )}
-      <ul>
+
+      <CastList>
         {casts &&
           casts.map(cast => (
-            <li key={cast.id}>
-              <img
+            <CastListItem key={cast.id}>
+              <CastImage
                 src={
                   cast.profile_path
                     ? `https://image.tmdb.org/t/p/w200${cast.profile_path}`
@@ -53,12 +61,11 @@ const Cast = () => {
                 width={250}
                 alt={`${cast.name}`}
               />
-              {!cast.profile_path && <p>Sorry, we didn't find a photo.</p>}
-              {cast.name}
-            </li>
+              <CastName>{cast.name}</CastName>
+            </CastListItem>
           ))}
-      </ul>
-    </>
+      </CastList>
+    </CastWrap>
   );
 };
 

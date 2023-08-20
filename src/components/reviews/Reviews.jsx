@@ -2,8 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchMovieReview } from 'API';
 import Loader from 'components/loader/Loader';
+import { ReviewsWrap, ReviewsList, ReviewAutor } from './Reviews.styled';
 
-const Rewiews = () => {
+const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsloading] = useState(false);
@@ -27,7 +28,7 @@ const Rewiews = () => {
   }, [movieId]);
 
   return (
-    <>
+    <ReviewsWrap>
       {isLoading && <Loader />}
       {isEmpty && <p>Sorry, there is no reviews.</p>}
       {error && (
@@ -39,17 +40,17 @@ const Rewiews = () => {
           Sorry. {error} 😭
         </p>
       )}
-      <ul>
+      <ReviewsList>
         {reviews &&
           reviews.map(review => (
             <li key={review.id}>
-              <p>{review.author}</p>
+              <ReviewAutor>{review.author}</ReviewAutor>
               {review.content}
             </li>
           ))}
-      </ul>
-    </>
+      </ReviewsList>
+    </ReviewsWrap>
   );
 };
 
-export default Rewiews;
+export default Reviews;
