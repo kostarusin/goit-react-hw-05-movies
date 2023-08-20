@@ -75,8 +75,9 @@ export const InfoLink = styled(Link)`
   color: #007bff;
   text-decoration: none;
   margin-right: 10px;
+  transition: color 0.3s ease;
 
   &:hover {
-    text-decoration: underline;
+    color: #ff5722;
   }
 `;
