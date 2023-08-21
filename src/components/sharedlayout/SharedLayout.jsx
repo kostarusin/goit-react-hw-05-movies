@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Container, Header, Link } from './SharedLayout.styled';
 import Loader from 'components/Loader/Loader';
 
-export const SharedLayout = () => {
+const SharedLayout = () => {
   return (
     <Container>
       <Header>
@@ -20,3 +20,5 @@ export const SharedLayout = () => {
     </Container>
   );
 };
+
+export default SharedLayout;
